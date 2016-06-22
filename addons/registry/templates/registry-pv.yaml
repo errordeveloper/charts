@@ -1,0 +1,20 @@
+{{- if and (.cluster_registry_disk_type) (.cluster_registry_disk_size) (.cluster_registry_disk_name)}}
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: kube-system-kube-registry-pv
+  labels:
+    kubernetes.io/cluster-service: "true"
+spec:
+  {{- if eq .cluster_registry_disk_type "gce"}}
+  capacity:
+    storage: "{{.cluster_registry_disk_size}}"
+  accessModes:
+    - ReadWriteOnce
+  gcePersistentDisk:
+    pdName: "{{.cluster_registry_disk_name}}"
+    fsType: "ext4"
+  {{- end}}
+{{- else}}
+## PV won't be configured
+{{- end}}

@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: registry
-        image: registry:2
+        image: {{default "registry" .registry_image}}:{{default 2 .registry_image_tag}}
         resources:
           # keep request = limit to keep this container in guaranteed class
           limits:

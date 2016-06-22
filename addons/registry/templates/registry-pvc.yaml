@@ -1,3 +1,4 @@
+{{- if and (.cluster_registry_disk_type) (.cluster_registry_disk_size) (.cluster_registry_disk_name)}}
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
@@ -10,4 +11,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: {{ pillar['cluster_registry_disk_size'] }}
+      storage: "{{.cluster_registry_disk_size}}"
+{{- else}}
+## PCV won't be configured
+{{- end}}
