@@ -1,0 +1,7 @@
+name: dashboard
+description: Kubernetes Dashboard is a general purpose, web-based UI for Kubernetes clusters
+version: 0.1.0
+home: https://github.com/kubernetes/dashboard
+sources:
+  - https://github.com/kubernetes/charts
+  - https://github.com/kubernetes/dashboard
