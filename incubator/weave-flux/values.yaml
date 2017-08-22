@@ -1,0 +1,7 @@
+WeaveCloud:
+  ServiceToken: ""
+
+Git:
+  # URL: ""
+  Branch: "master"
+  Path: ""

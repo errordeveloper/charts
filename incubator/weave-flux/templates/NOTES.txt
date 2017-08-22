@@ -1,0 +1,69 @@
+{{- if empty .Values.Git.URL }}
+WARNING: Weave Flux installation is incomplete!
+
+You must provide a URL of a git repository to use with Flux, it must be an SSH-based URL in `<user>@<host>:<path>` format
+(e.g. `git@github.com:weaveworks/flux-example`).
+
+To fix this, run:
+
+  helm upgrade --reuse-values --set Git.URL=<YOUR_GIT_REPOSITORY_URL> {{ .Release.Name }} incubator/weave-flux
+
+{{- else }}
+The installation of Weave Flux is complete.
+
+{{- if not (empty .Values.WeaveCloud.ServiceToken) }}
+
+Weave Flux had been installed in your cluster, and it's connected to Weave Cloud!
+
+Next, login to Weave Cloud (https://cloud.weave.works) and verify the agents are connect to your instance.
+
+{{- else }}
+
+You haven't not specified a Weave Cloud token, so it's running in standalone mode.
+
+If you'd like to use GUI, you can signup to Weave Cloud for free (https://cloud.weave.works/), and then you can
+enable Weave Cloud integration token, log in to your instance first (https://cloud.weave.works/instances).
+
+Then run:
+
+  helm upgrade --reuse-values --set WeaveCloud.ServiceToken=<YOUR_WEAVE_CLOUD_SERVICE_TOKEN> {{ .Release.Name }} incubator/weave-flux
+
+Without Weave Cloud, you can use `fluxctl` client, which you can download from: https://github.com/weaveworks/flux/releases/latest.
+
+You will need to forward agent port:
+
+  kubectl port-forward -n {{ .Release.Namespace }} "$(kubectl get -n {{ .Release.Namespace }} pod -l weave-flux-component=agent -o name)" 3030 &
+
+You then should be able to use `fluxctl`, e.g.:
+
+  fluxctl -u http://localhost:3030/api/flux list-services
+
+If this works, you will need to ensure Weave Flux agent has access to the git repository.
+Flux generates a deploy key for you, so you will need to obtain it:
+
+  fluxctl -u http://localhost:3030/api/flux identity
+
+Once you have the deploy key, you can add the key to your GitHub or GitLab repository, or any other git
+hosting provider which supports deploy keys for access management.
+
+See `fluxctl help` for more commands.
+
+{{- end }}
+
+If you are having an issue, first verify all pods are running:
+
+  kubectl get -n {{ .Release.Namespace }} pods -l weave-flux-component
+
+If any pods are not running after a few seconds, inspect the output of:
+
+  kubectl describe pod -n {{ .Release.Namespace }} -l weave-flux-component
+
+If agent pod is running, but for some reason things don't work as expect, you can inspect pod logs for errors:
+
+  kubectl logs -n {{ .Release.Namespace }} "$(kubectl get -n {{ .Release.Namespace }} pod -l weave-flux-component=agent -o name)"
+
+Happy hacking!
+
+{{- end }}
+
+If you need help or have any question, join our Slack to chat to us – https://slack.weave.works.

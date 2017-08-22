@@ -1,0 +1,12 @@
+name: weave-flux
+version: 0.1.0
+description: |
+  Weave Flux is an add-on to Kubernetes which helps to implement release automation (continuous deployment), and can be integrated with Weave Cloud
+  service which adds graphical user interface on top of Weave Flux, as well as enterprise features for continuous delivery, including hosted Prometheus
+  and other tools aimed to accelerate development of cloud-native applications.
+home: https://weave.works
+maintainers:
+  - name: Ilya Dmitrichenko
+    email: ilya@weave.works
+engine: gotpl
+icon: https://www.weave.works/assets/images/bltd108e8f850ae9e7c/weave-logo-512.png
