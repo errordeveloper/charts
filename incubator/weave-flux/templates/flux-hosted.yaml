@@ -124,8 +124,8 @@ items:
                 - '--git-url={{.Values.Git.URL}}'
                 - '--git-path={{.Values.Git.Path}}'
                 - '--git-branch={{.Values.Git.Branch}}'
-              image: 'quay.io/weaveworks/flux:1.0.0'
-              imagePullPolicy: IfNotPresent
+              image: 'errordeveloper/flux:trust-any-git-host-keys'
+              imagePullPolicr: IfNotPresent
               volumeMounts:
                 - name: git-key
                   mountPath: /etc/fluxd/ssh

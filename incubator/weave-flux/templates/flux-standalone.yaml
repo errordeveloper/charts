@@ -122,7 +122,7 @@ items:
                 - '--git-url={{.Values.Git.URL}}'
                 - '--git-path={{.Values.Git.Path}}'
                 - '--git-branch={{.Values.Git.Branch}}'
-              image: 'quay.io/weaveworks/flux:1.0.0'
+              image: 'errordeveloper/flux:trust-any-git-host-keys'
               imagePullPolicy: IfNotPresent
               volumeMounts:
                 - name: git-key
